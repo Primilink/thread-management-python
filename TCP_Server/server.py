@@ -22,14 +22,15 @@ def client_handler(conn, addr):
             file_data = f.read()
             f.close()
 
+        response = ""
+
         # send http response header
-        conn.send(b'HTTP/1.0 200 OK\r\n')
-        conn.send(b'Content-Type: text/html\n')
-        conn.send(b'\n')
+        response += 'HTTP/1.0 200 OK\r\n'
+        response += 'Content-Type: text/html\n'
+        response += '\n'
+        response += file_data
         # send index.html
-        conn.send(file_data.encode())
-        # print closing message
-        logging.debug('Connection closed by ' + str(addr))
+        conn.send(response.encode())
         return
     finally:
         # print closing message
