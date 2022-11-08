@@ -14,9 +14,11 @@ def client_handler(conn, addr):
     """ Handle client connection """
     # log the connection
     logging.debug('Connected by ' + str(addr))
-
+    file = conn.makefile()
     # create
     try:
+        line = file.readline()
+        logging.debug(f'line: {line}')
         # read index.html
         with open('index.html', 'r') as f:
             file_data = f.read()
@@ -37,6 +39,7 @@ def client_handler(conn, addr):
         logging.debug('Connection closed by ' + str(addr))
         # close connection
         conn.close()
+        file.close()
 
 
 if __name__ == '__main__':
